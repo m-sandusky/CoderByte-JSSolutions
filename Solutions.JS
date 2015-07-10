@@ -40,8 +40,35 @@ function LongestWord(sen) {
   else{return longestString;}
 }
 
-/*Letter Changes
+/*Letter Changes: have a  function take a string being passed and modify it
+by replacing every letter in the string with the letter following it in the
+alphabet. Then capitalize every vowel in this new string
 */
+
+function LetterChanges(str) {
+  var alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZA";
+  var vowels= "aeiou";
+  var index;
+  var changedChar;
+  var changedString = "";
+
+  for (var i = 0; i < str.length; i++){
+    index = alphabet.indexOf(str.charAt(i));
+    if (index !== -1){
+      changedChar = alphabet.charAt(index + 1);
+      if (vowels.indexOf(changedChar) === -1){
+        changedString += changedChar;
+      } else {
+        changedChar = changedChar.toUpperCase();
+        changedString += changedChar;
+      }
+    }
+    else{
+      changedString += str.charAt(i);
+    }
+  }
+  return changedString;
+}
 
 /* Simple Adding: Have this function add up all the numbers from 1 to num. For
 test purposes the parameter num will be from 1 - 1000*/
@@ -71,8 +98,21 @@ function LetterCapitalize(str) {
   return str;
 }
 
-/*Simple Symbols
-*/
+/*Simple Symbols: have a function take a string parameter and determine if it's
+and acceptable sequence by either returning the string true or false. The string
+will be composed of + and = symbols with several letters between them and for
+the string to be true each letter must be surrounded by a + symbol.*/
+function SimpleSymbols(str) {
+  str = str.toLowerCase();
+  for(var i = 0; i < str.length; i++){
+    if ('a' <= str[i] && str[i]<= 'z'){
+      if (str[i-1] !== '+' || str[i+1] !=='+'){
+        return false;
+      }
+    }
+  }
+  return true;
+}
 
 /*Check Nums: have a function that takes two parameters and returns the string
 'true' if num2, is greater than num1. Otherwise return 'false'. If the parameter
@@ -99,6 +139,62 @@ words in the string.*/
 function WordCount(str) {
   var stringArray = str.split(" ");
   return stringArray.length;
+}
+
+/*Alphabet Soup: have a function take a string parameter being passed and return
+the string with the letters in alphabetical order. Assume numbers and punctuation
+symbols will not be included in the string.*/
+
+//Attempt 1 (long and convoluted version)
+function AlphabetSoup(str) {
+  var alpha = 'abcdefghijklmnopqrstuvwxyz';
+  var strLower = str.toLowerCase();
+  var array = [strLower[0]];
+ for(var i = 1; i<str.length;i++){
+     if (alpha.indexOf(strLower[i]) < alpha.indexOf(array[0])){
+          array.unshift(strLower[i]);
+        }
+    else if (alpha.indexOf(strLower[i]) > alpha.indexOf(array[array.length - 1])){
+        array.push(strLower[i]);
+      }
+    else{
+      for (var j = 0; j < array.length; j++){
+        if (alpha.indexOf(strLower[i]) <= alpha.indexOf(array[j])){
+          array.splice(j,0,strLower[i]);
+          break;
+        }
+      }
+    }
+  }
+  return array.join('');
+}
+
+//Attempt 2(using sort())
+function AlphabetSoup(str) {
+  var strLower = str.toLowerCase();
+  var strArray = [];
+
+  for (var i = 0; i < str.length; i++){
+    strArray.push(strLower[i]);
+  }
+  strArray = strArray.sort();
+  return strArray.join('');
+}
+
+/*AB Check: have a function take a string parameter and return true if the
+characters a and b are separated by exactly 3 places in the string at least
+once. Otherwise reutrn false */
+
+function ABCheck(str) {
+  str = str.toLowerCase();
+  for (var i= 0; i < str.length; i++){
+    if (str[i] === 'a'){
+      if (str[i+4] === 'b'||str[i-4] === 'b'){
+        return true;
+      }
+    }
+  }
+  return false;
 }
 
 /* Ex Oh: have a function take a string parameter and return true if there is
@@ -204,6 +300,53 @@ function ArrayAdditionI(arr) {
   return recursion() || false;
 }
 
+/*Letter count 1: have a function take a string parameter and reutn the first
+word with the greatest number of repeated letters. If there are no words with
+repeating letters then return -1. Words will be seperated by spaces.*/
+
+function LetterCountI(str) {
+  var strUpper = str.toUpperCase();
+  var stringArray = str.split(' ');
+  var stringArrayCap = strUpper.split(' ');
+  var letter;
+  var countFirst = 0;
+  var countSecond = 0;
+  var mostLetter;
+  var arrayStore = [];
+  var greatestWord = 0;
+  var index = 0;
+  for (var i = 0; i < stringArrayCap.length; i ++){
+    for (var j = 0; j < stringArrayCap[i].length; j++){
+      letter = stringArrayCap[i][j];
+      for (var k = 0; k <stringArrayCap[i].length; k++){
+        if (stringArrayCap[i][k] === letter){
+          countSecond ++;
+        }
+      }
+      if (countSecond > countFirst){
+        countFirst = countSecond;
+        mostLetter = letter;
+        countSecond = 0;
+      }
+      else{
+        countSecond = 0;
+      }
+    }
+    arrayStore.push(countFirst);
+    countFirst = 0;
+  }
+  for (var l = 0; l <arrayStore.length; l++){
+    if (arrayStore[l] > greatestWord){
+      index = l;
+      greatestWord = arrayStore[l];
+    }
+  }
+  if (greatestWord > 1){
+    return stringArray[index];
+  }
+  else{return -1;}
+
+}
 /*Second GreatLow: have a function that takes an array of numbers and returns
 the second lowest and second greatest numbers respectively separated by a space*/
 
@@ -332,6 +475,106 @@ var count1 = 0, count2 = 0, mode;
   }
 }
 
+/*Dash Insert: have a function insert dashes between each two odd numbers in a
+string. Don't count 0 as an odd number.*/
+function DashInsert(str) {
+  var newString = '';
+  for (var i = 0 ; i < str.length ; i++){
+    if (Number(str[i]) % 2 !== 0 && Number(str[i+1]) & 2 !== 0){
+      newString += str[i] + '-';
+    }
+    else{
+      newString += str[i];
+    }
+  }
+  return newString;
+}
+/* Swap Case: have a function take a string parameter and swap the case of
+each character. Let numbers and symbols stay the way they are.*/
+
+function SwapCase(str) {
+  var newString = "";
+  var upperCase;
+  var newString;
+  for (var i = 0; i < str.length; i++){
+    upperCase = str[i].toUpperCase();
+    if (upperCase === str[i]){
+      newString += str[i].toLowerCase();
+    }
+    else{
+      newString += upperCase;
+    }
+  }
+
+  return newString;
+
+}
+/*Number Addition: have a function take a string parameter and search for all
+the numbers in the string, add them together, and return that number. You will
+have to differentiate between single digit and multiple digit numbers*/
+
+function NumberAddition(str) {
+  var numberArray = [];
+  var number = '';
+  var i = 0;
+  while(i <= str.length){
+    if (!isNaN(Number(str[i])) && str[i] !== ' ') {
+      number +=str[i];
+    }
+    else {
+      if (number.length > 0 ){
+        numberArray.push(Number(number));
+        number = '';
+      }
+    }
+    i ++;
+  }
+  var numberTotal = numberArray.reduce(function(a,b){return a +b;});
+  return numberTotal;
+
+}
+
+/*Third Greatest: have a function take na array of strings and return the Third
+largest word within the array. If certain strings are equal length return the
+last instance of it.*/
+
+function ThirdGreatest(strArr) {
+  var numArray = [];
+  var first = 0; var second = -1; var third = -2;
+  var firstStr =''; var secondStr = '';var thirdStr = '';
+  for (var i = 0; i < strArr.length; i ++){
+    numArray.push(strArr[i].length);
+  }
+   for (var j = 0; j < numArray.length; j++){
+     if (numArray[j] > first){
+       if (first >= second){
+         if (second >= third){
+            third = second;
+           thirdStr = secondStr;
+         }
+         second = first;
+         secondStr = firstStr;
+       }
+       first = numArray[j];
+       firstStr = strArr[j];
+     }
+     else if (numArray[j] > second){
+       if (second >= third){
+         third = second;
+         thirdStr = secondStr;
+       }
+       second = numArray[j];
+       secondStr = strArr[j];
+     }
+     else if (numArray[j] >= third){
+       third = numArray[j]
+       thirdStr = strArr[j];
+     }
+   }
+  return thirdStr;
+}
+
+
 /*Powers of Two: have a function take in a number parameter which will be an
 integer and return true if it's a power 2 and false if it is not*/
 function PowersofTwo(num) {
@@ -424,7 +667,7 @@ function MultiplicativePersistence(num) {
   separated by commas. For example: if strArr is ["5","4","6","E","1","7","E","E","3","2"]
    then your program should return 4,1,5.*/
 
-   function OffLineMinimum(strArr) { 
+   function OffLineMinimum(strArr) {
   var array = [];
   while(strArr.indexOf('E') !== -1){
     var index = strArr.indexOf('E');
