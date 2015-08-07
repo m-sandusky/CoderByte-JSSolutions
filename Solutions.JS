@@ -686,3 +686,73 @@ function MultiplicativePersistence(num) {
     if (strArr.indexOf('E') === -1){return array.toString();}
   }
 }
+
+
+//START OF MEDIUM CODERBYTE PROBLEMS
+
+/*Prime Time: have the function PrimeTime take the num parameter being passed and return true
+if the parameter is a prime number, else return false*/
+
+function PrimeTime(num) {
+  //if number = 1 or 2 then true
+  //else divide num by 2 through num - 1
+  // if num % whatever number === 0, then return false
+  //at the end of loop, return true
+  if (num === 1 || num === 2){
+    return true;
+  } else {
+    for (var i = 2; i < num; i++){
+      if (num % i === 0){
+        return false;
+      }
+    }
+    return true;
+  }
+}
+
+/*Run Length: have the function take a parameter being passed and return a
+compressed versino of the string using the Run-Length encoding algorithm. This
+algorithm works by taking the occurence of each repeating character and outputting
+that number along with a single character of the repeating sequence*/
+
+function RunLength(str) {
+  //create an empty array to push values to
+  //for each element of str
+  //increase count
+  //if index[i+1] !== index[i]
+  //-> push count + i to array
+  //-> set count to 0
+  //join array to new string and return
+  var arr = [];
+  var count = 0;
+  for(var i = 0; i < str.length; i++){
+    count++;
+    if (str[i] !== str[i+1]){
+      arr.push(count + str[i]);
+      count = 0;
+    }
+  }
+  return arr.join('');
+}
+
+/*Prime Mover: have the function Prime Mover return the num(th) prime number. */
+
+function PrimeMover(num) {
+  var nthPrime = 1;
+  var number = 2;
+  var isPrime;
+  while(nthPrime !== num){
+    isPrime = true;
+    number++;
+    for(var i = 2; i < number; i++){
+      if(number % i === 0){
+        isPrime = false;
+        break;
+      }
+    }
+    if(isPrime){
+      nthPrime++;
+    }
+  }
+  return number;
+}
