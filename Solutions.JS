@@ -757,11 +757,26 @@ function PrimeMover(num) {
   return number;
 }
 
+/*Division: have a function take two number parameters being passed and reutrn
+their greatest common factor*/
+
+function Division(num1,num2) {
+  //determine which number is less
+  //start looping from the lesser number through 1
+  //if num1 % current number === 0 and num2 % current number === 0 ->return that number
+  var least = Math.min(num1, num2);
+  for(var i = least; i > 0; i--){
+    if(num1 % i === 0 && num2 % i === 0){
+      return i;
+    }
+  }
+}
+
 /*Arith Geo II: have the function take an array of numbers and return 'Arithmetic'
 if the sequence follows an arithmetic patter or 'Geometric' if it follows a
 geometric pattern. If it doesn't follow either, then return -1*/
 
-function ArithGeoII(arr) { 
+function ArithGeoII(arr) {
   //declare arithmetic adn geometric values to be true
   //array[1] - array [0] = arithComp
   //array[1]/array[0] = geomComp
@@ -795,4 +810,21 @@ function ArithGeoII(arr) {
   else {
     return -1;
   }
+}
+
+/*Binary Converter: have a function convert a string to the decimal form of the binary value*/
+
+function BinaryConverter(str) {
+  //sum set initially to 0
+  //count set initally to 0 (this is the exponent)
+  //loop through string starting from the end
+  //if(element === '1') -> sum += Number(element) * Math.pow(2, count)
+  //increase count by 1
+  var sum = 0;
+  var count = 0;
+  for (var i = str.length - 1; i >= 0; i--){
+    sum += Number(str[i]) * Math.pow(2, count);
+    count++;
+  }
+  return sum;
 }
