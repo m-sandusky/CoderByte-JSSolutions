@@ -756,3 +756,43 @@ function PrimeMover(num) {
   }
   return number;
 }
+
+/*Arith Geo II: have the function take an array of numbers and return 'Arithmetic'
+if the sequence follows an arithmetic patter or 'Geometric' if it follows a
+geometric pattern. If it doesn't follow either, then return -1*/
+
+function ArithGeoII(arr) { 
+  //declare arithmetic adn geometric values to be true
+  //array[1] - array [0] = arithComp
+  //array[1]/array[0] = geomComp
+  //loop through the array starting at third element
+  //if array[i] - array[i-1] !== arithComp -> alrithmetic = false
+  //if array[i]/array[i-1] !== goemComp -> geom = false
+  //if (!arithmetic && !geom) -> return -1
+  //after looping if(aritmetic) return "Arithmetic"
+  //else return 'Geometric'
+  var arith = true;
+  var geom = true;
+  var arithComp = arr[1] - arr[0];
+  var arithGeom = arr[1]/arr[0];
+  for (var i = 2; i < arr.length; i++){
+    if(arr[i] - arr[i-1] !== arithComp){
+      arith = false;
+    }
+    if(arr[i]/arr[i-1] !== arithGeom){
+      geom = false;
+    }
+    if(!arith && !geom){
+      return -1;
+    }
+  }
+  if(arith){
+    return "Arithmetic";
+  }
+  else if (geom) {
+    return "Geometric";
+  }
+  else {
+    return -1;
+  }
+}
